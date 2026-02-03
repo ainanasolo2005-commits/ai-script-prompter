@@ -24,6 +24,18 @@
         <div id="aiScript">Waiting for the other person to speak...</div>
     </div>
     <div id="userListen" class="user-listen">Listening...</div>
+ </body>
+    <div style="background: rgba(0,0,0,0.7); color: #00FF00; padding: 10px; font-size: 14px; text-align: center; border-bottom: 1px solid #333;">
+        <b>GUIDE:</b> Read the green text naturally. Keep your eyes on the camera.
+    </div>
+
+    <div class="status">LIVE ● RECORDING</div>
+    
+    <div class="script-box">
+        <div id="aiScript">Waiting for the interviewer to speak...</div>
+    </div>
+    
+    <div id="userListen" class="user-listen"></div>
 </div>
 
 <script>
@@ -50,14 +62,16 @@
             userListen.innerText = "They said: " + transcript;
 
             // AI Suggestion (For you to read)
+            recognition.onresult = (event) => {
+            const transcript = event.results[event.results.length - 1][0].transcript;
+            userListen.innerText = "They said: " + transcript;
+            const systemPrompt = "You are an interview assistant. Provide a simple answer to read and suggest one follow-up question I can ask back.";
+
             setTimeout(() => {
-                const response = "That is an excellent point. I believe that integrating these solutions will maximize our overall efficiency.";
-                scriptBox.innerText = response; // Ity no vakianao mafy
+                const response = systemPrompt + "\n\nAnswer: [AI generates based on: " + transcript + "]";
+                scriptBox.innerText = response;
             }, 800);
         };
-
-        recognition.onend = () => recognition.start();
-        recognition.start();
     }
 </script>
 
